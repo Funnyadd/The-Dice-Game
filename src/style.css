@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Palette */
+    --ink: #141414;
+    --felt: #1f5c3a;
+    --felt-dark: #17462c;
+    --wood: #7a4b2b;
+    --wood-dark: #5b3720;
+    --tile: #f2e7d4;
+    --tile-pressed: #bea475;
+    --tile-selected: #def55b;
+    --tile-disabled: #a1a1a1;
+
+    /* Shadows */
+    --shadow-soft: 0 6px 0 rgba(0, 0, 0, 0.18);
+    --shadow-hard: 0 4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  /* Keep things crisp and "game-like" */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    font: inherit;
+    @apply select-none cursor-pointer;
+  }
+}
+
+@layer components {
+  .tile-btn {
+    @apply m-1;
+    width: 56px;
+    height: 56px;
+    border: 3px solid var(--ink);
+  }
+
+  .tile-btn-up {
+    background: var(--tile);
+  }
+
+  .tile-btn-up:hover {
+    filter: brightness(1.1);
+  }
+
+  .tile-btn-up:active {
+    background: var(--tile-pressed);
+  }
+
+  .tile-btn-selected {
+    background: var(--tile-selected);
+  }
+
+  .tile-btn-disabled {
+    @apply cursor-not-allowed;
+    background: var(--tile-disabled);
+  }
+
+  .tile-btn-down {
+    background: var(--tile);
+    height: 28px;
+  }
+
+  .action-btn {
+    @apply m-1 px-4 py-3 font-semibold;
+    border: 3px solid var(--ink);
+    background: rgba(255,255,255,0.92);
+  }
+
+  .action-btn:hover {
+    background: rgb(226, 226, 226);
+  }
+
+  .action-btn:active {
+    background: rgb(207, 207, 207);
+  }
+}
