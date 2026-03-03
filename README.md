@@ -1,5 +1,11 @@
 # The Dice Game
 
+## Getting Started
+
+> Need to add basic instructions to install and start the app
+
+> Probably also will need a CONTRIBUTING.md and a nice little footer for this README.md
+
 ## ROADMAP
 Code works from what I tested. Probably need to do some more testing
 
