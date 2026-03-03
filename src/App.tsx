@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
     type TileState = "up" | "down" | "selected" | "disabled";
+    type GameState = "notStarted" | "started" | "won" | "lost";
 
     class Tile {
         #number: number;
@@ -18,8 +19,9 @@ function App() {
         isSelected = (): boolean => this.#state === "selected";
         isDisabled = (): boolean => this.#state === "disabled";
         isDown = (): boolean => this.#state === "down";
+        isUp = (): boolean => this.#state === "up";
 
-        setState = (state: TileState): void =>  {
+        setState = (state: TileState): void => {
             this.#state = state
         };
 
@@ -29,26 +31,21 @@ function App() {
     // need to initialize tiles array
 
     const nbTiles: number = 12; // For now a constant but will make it dynamic (10 or 12)
+    const defaultDiceRollMessage = "Roll the dice to start!";
 
-    const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
+    const [gameState, setGameState] = useState<GameState>("notStarted");
     const [diceResult, setDiceResult] = useState<number>(0);
     const [tiles, setTiles] = useState<Tile[]>(initialTiles());
+    const [finalResult, setFinalResult] = useState<String>("");
+    const [score, setScore] = useState<number>(0);
+    const [error, setError] = useState<string>("");
     
     function initialTiles() {
         let init = [];
         for (let i = 1; i <= nbTiles; i ++) {
-            init.push(new Tile(i));
+            init.push(new Tile(i, "up"));
         }
         return init;
-    }
-
-    function setTileStateAt(number: number, nextState: TileState) {
-        setTiles((previous) =>
-            previous.map(tile => {
-                if (tile.getNumber() !== number) return tile;
-                return withState(tile, nextState)
-            })
-        );
     }
 
     const withState = (tile: Tile, state: TileState) => {
@@ -57,80 +54,115 @@ function App() {
         return copy;
     };
 
+    const depthFirstSearch = (nums: number[], target: number, i: number, sum: number): boolean => {
+        if (sum === target) return true;
+        if (sum > target || i === nums.length) return false;
+        return depthFirstSearch(nums, target, i + 1, sum + nums[i]) || depthFirstSearch(nums, target, i + 1, sum);
+    }
+
+    const hasMovesLeft = (target: number): boolean => {
+        const nums = tiles.filter((t) => t.isDisabled() || t.isUp()).map((t) => t.getNumber());
+        return depthFirstSearch(nums, target, 0, 0);
+    }
+
     const handleRollDiceClick = () => {
         const min: number = 2;
         const max: number = nbTiles;
 
-        if (!isGameStarted) setIsGameStarted(true);
+        setError("");
 
-        const result = Math.floor(Math.random() * (max - min + 1)) + min; 
-        setDiceResult(result);
+        if (gameState == "lost" || gameState == "won") return setError("First click on the reset button to restart the game");
+        if (gameState == "notStarted") setGameState("started");
+        else if (tiles.every((t) => !t.isSelected())) return setError("Select at least one tile!");
 
-        tiles.forEach(tile => {
-            if (tile.isSelected()) {
-                setTileStateAt(tile.getNumber(), "down");
-            }
-            else if (tile.getNumber() > result && !tile.isDown()) {
-                setTileStateAt(tile.getNumber(), "disabled");
-            }
-            else if (tile.isDisabled()) {
-                setTileStateAt(tile.getNumber(), "up");
-            }
+        const diceRoll = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        // Block dice roll update if player hasn't played the turn completely
+        const sumOfSelectedTiles = tiles.reduce((sum, t) => t.isSelected() ? sum += t.getNumber() : sum, 0);
+        console.log(sumOfSelectedTiles + " : " + diceRoll)
+        if (sumOfSelectedTiles < diceResult && diceResult > 0)
+            return setError("The tiles selected need to equal the total dice");
+        setDiceResult(diceRoll);
+
+        // Check if player lost
+        if (!hasMovesLeft(diceRoll)) {
+            const totalSumLeft = tiles.reduce((sum, t) => t.isDisabled() || t.isUp() ? sum + t.getNumber() : sum, 0);
+            setScore(totalSumLeft);
+            setGameState("lost");
+            return;
+        }
+
+        // Make the board ready for next roll
+        setTiles((previousTiles) => {
+            return previousTiles.map((pt) => {
+                let nextState: TileState;
+
+                if (pt.isSelected()) nextState = "down";
+                else if (pt.getNumber() <= diceRoll && pt.isDisabled()) nextState = "up"
+                else if (pt.getNumber() > diceRoll && (pt.isUp() || pt.isDisabled())) nextState = "disabled";
+                else return pt;
+
+                return withState(pt, nextState);
+            });
         });
     }
 
-    const handleResetGame = () => {
+    const handleResetGameClick = () => {
         setDiceResult(0);
-        setIsGameStarted(false);
+        setGameState("notStarted");
         setTiles(initialTiles());
+        setFinalResult("");
+        setError("");
     }
 
-    // TODO: RECHECK THIS METHOD AS IT IS GENERATED
-    const handleTileClick = (tile: Tile) => {
-        if (!isGameStarted || tile.isDisabled() || tile.isDown()) return;
+    const handleTileClick = (currentTile: Tile) => {
+        setError("");
+        if (gameState == "notStarted" || !currentTile || currentTile.isDisabled() || currentTile.isDown()) return;
 
-        setTiles((prev) => {
-            const clicked = prev.find((t) => t.getNumber() === tile.getNumber());
-            if (!clicked || clicked.isDisabled()) return prev;
-
-            // 1) toggle clicked tile
-            let next = prev.map((t) => {
-                if (t.getNumber() !== tile.getNumber()) return t;
-
-                const nextState: TileState = t.isSelected() ? "up" : "selected";
-                return withState(t, nextState);
+        setTiles((previousTiles) => {
+            // toggle clicked tile
+            let nextTiles = previousTiles.map((pt) => {
+                if (pt.getNumber() !== currentTile.getNumber()) return pt;
+                const nextState: TileState = pt.isSelected() ? "up" : "selected";
+                return withState(pt, nextState);
             });
 
-            // 2) compute total selected from NEXT state (not stale `tiles`)
-            const totalSelected = next.reduce(
-                (sum, t) => (t.isSelected() ? sum + t.getNumber() : sum),
-                0
-            );
+            // compute total selected from NEXT state (not stale `tiles`)
+            const totalSelected = nextTiles.reduce((sum, nt) => nt.isSelected() ? sum + nt.getNumber() : sum, 0);
 
-            // 3) disable tiles based on NEXT state
-            next = next.map((t) => {
-                if (t.isSelected()) return t;
-                if (t.getNumber() > diceResult - totalSelected && !t.isDown()) return withState(t, "disabled");
-                return t;
+            // disable tiles based on NEXT state
+            nextTiles = nextTiles.map((nt) => {
+                if (nt.isSelected()) return nt;
+                if (nt.getNumber() > diceResult - totalSelected && !nt.isDown()) return withState(nt, "disabled");
+                if (nt.getNumber() <= diceResult - totalSelected && nt.isDisabled()) return withState(nt, "up");
+                return nt;
             });
 
-            return next;
+            return nextTiles;
         });
-
-        
-        // if (tile.isSelected()) setTileStateAt(tile.getNumber(), "up");
-        // else setTileStateAt(tile.getNumber(), "selected");
-
-        // // get all selected (make function)
-        // let totalSelected = tile.getNumber();
-        // tiles.forEach(t => t.isSelected() ? totalSelected += t.getNumber() : null);  // find if we keep null here
-
-        // tiles.forEach(t => {
-        //     if (t.getNumber() > diceResult - totalSelected && !t.isSelected()) {
-        //         setTileStateAt(t.getNumber(), "disabled");
-        //     }
-        // });
     }
+
+    useEffect(() => {
+        const won = tiles.every((t) => t.isDown() || t.isSelected());
+        if (won && gameState == "started") setGameState("won");
+    }, [tiles]);
+
+    useEffect(() => {
+        if (gameState == "won") {
+            setFinalResult("You won! Your score is 0.");
+            setTiles((previousTiles) => previousTiles.map((pt) => pt.isDown() ? pt : withState(pt, "down")));
+        }
+        else if (gameState == "lost") {
+            setFinalResult(`You lost! Your score is ${score}.`);
+            setTiles((previousTiles) => {
+                return previousTiles.map((pt) => {
+                    if (pt.isUp()) return withState(pt, "disabled");
+                    else if (pt.isSelected()) return withState(pt, "down");
+                    else return pt;
+                });
+            });
+        }
+    }, [gameState]);
 
     return (
         <>
@@ -149,11 +181,17 @@ function App() {
             <div>
                 <button className="action-btn" onClick={handleRollDiceClick}>Roll the Dice</button>
                 <span className="dice-result">
-                    <strong>Current roll:</strong> {diceResult > 0 ? diceResult : "Roll the dice to start!"}
+                    <strong>Current roll:</strong> {diceResult > 0 ? diceResult : defaultDiceRollMessage}
                 </span>
             </div>
             <div>
-                <button className="action-btn" onClick={handleResetGame}>Reset</button>
+                <button className="action-btn" onClick={handleResetGameClick}>Reset</button>
+            </div>
+            <div>
+                <p className="m-1">{finalResult}</p>
+            </div>
+            <div>
+                <p className="m-1">{error}</p>
             </div>
         </>
     );
