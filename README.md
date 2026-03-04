@@ -11,7 +11,7 @@ Code works from what I tested. Probably need to do some more testing
 - [ ] Look into adding prettier with basic rules to the repo
 - [ ] Add basic instructions to install and start the app in the **Getting Started** section of the README
 - [ ] Add a Basic** CONTRIBUTING.md** file
-- [ ] Add a **LICENSE** file
+- [x] Add a **LICENSE** file
 
 ### v1 (to re-evaluate what can be v1 and what could be v1.1, v1.2, ...)
 - [ ] Separate game mode for people who want to use thei own dice
