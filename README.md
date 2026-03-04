@@ -2,10 +2,6 @@
 
 ## Getting Started
 
-> Need to add basic instructions to install and start the app
-
-> Probably also will need a CONTRIBUTING.md and a nice little footer for this README.md
-
 ## ROADMAP
 Code works from what I tested. Probably need to do some more testing
 
@@ -13,6 +9,9 @@ Code works from what I tested. Probably need to do some more testing
 - [ ] Look at the code again to see if it's coherent and could maybe be upgraded / optimized
 - [ ] Separate this into components (at least a component for the tiles and maybe another one for actual alerts)
 - [ ] Look into adding prettier with basic rules to the repo
+- [ ] Add basic instructions to install and start the app in the **Getting Started** section of the README
+- [ ] Add a Basic** CONTRIBUTING.md** file
+- [ ] Add a **LICENSE** file
 
 ### v1 (to re-evaluate what can be v1 and what could be v1.1, v1.2, ...)
 - [ ] Separate game mode for people who want to use thei own dice
@@ -29,7 +28,7 @@ Code works from what I tested. Probably need to do some more testing
   - [ ] ANIMATED DICE!!! (would be cool if they could be thrown in the box at random angles to give the real look and feel of the real game)
   - [ ] Make sure the app is playable on multiple mobile device out there mainly with the desktop version looking similar to the mobile version
     since the app is mainly made for phones. Could look into an ipad/tablet mode also
-  - Add the game title somewhere
+  - [ ] Add the game title somewhere
 
 - [ ] Start menu
 
