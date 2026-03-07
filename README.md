@@ -2,19 +2,50 @@
 
 ## Getting Started
 
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run the application
+
+```bash
+npm run dev
+```
+
+### Build the application
+
+```bash
+npm run build
+```
+
+### Lint the code with eslint
+
+```bash
+npm run lint
+```
+
+### Format the code with prettier
+
+```bash
+npm run format
+```
+
+###
+
 ## ROADMAP
 Code works from what I tested. Probably need to do some more testing
 
 ### Beta (game engine)
-- [ ] Look at the code again to see if it's coherent and could maybe be upgraded / optimized
-- [ ] Separate this into components (at least a component for the tiles and maybe another one for actual alerts)
-- [ ] Look into adding prettier with basic rules to the repo
-- [ ] Add basic instructions to install and start the app in the **Getting Started** section of the README
-- [ ] Add a Basic** CONTRIBUTING.md** file
+- [x] Look at the code again to see if it's coherent and could maybe be upgraded / optimized
+- [x] Separate this into components (at least a component for the tiles)
+- [x] Look into adding prettier with basic rules to the repo
+- [x] Add basic instructions to install and start the app in the **Getting Started** section of the README
 - [x] Add a **LICENSE** file
 
-### v1 (to re-evaluate what can be v1 and what could be v1.1, v1.2, ...)
-- [ ] Separate game mode for people who want to use thei own dice
+### v1 (need to re-evaluate what can be v1 and what could be v1.1, v1.2, ...)
+- [ ] Separate game mode for people who want to use their own dice
   - [ ] Could have a button to calculate total
   - [ ] Could have selections that we lock in with another button (see if thats fun to play with)
   - [ ] And of course, a reset button to reset the board
