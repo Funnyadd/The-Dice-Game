@@ -37,40 +37,65 @@ npm run format
 ## ROADMAP
 Code works from what I tested. Probably need to do some more testing
 
-### Beta (game engine)
+### v0.1 - Game engine
 - [x] Look at the code again to see if it's coherent and could maybe be upgraded / optimized
 - [x] Separate this into components (at least a component for the tiles)
 - [x] Look into adding prettier with basic rules to the repo
 - [x] Add basic instructions to install and start the app in the **Getting Started** section of the README
 - [x] Add a **LICENSE** file
 
-### v1 (need to re-evaluate what can be v1 and what could be v1.1, v1.2, ...)
+### v0.2 - Board Styling
+- [ ] Box needs to be all wood and have a woodden texture.
+- [ ] Make a 2D version looking like 3D but no treeJS or anything fancy like that
+- [ ] Tiles should be animated with maybe slight colour changed on currently selected tiles before locking in the round
+- [ ] Tiles that are disabled should not be clickable or should show some sort of animation on screen to let the player know that they are not available with the current dice roll
+- [ ] Make sure the app is playable on multiple mobile device out there mainly with the desktop version looking similar to the mobile version
+  since the app is mainly made for phones. Could look into an ipad/tablet mode also
+- [ ] Add the game title somewhere
+- [ ] Add App Icon (maybe generate one with GPT)
+
+### v0.3 - Dice animation
+
+- [ ] ANIMATED DICE!!! (would be cool if they could be thrown in the box at random angles to give the real look and feel of the real game)
+
+### v0.4 - Device compatibility & Resizability of app
+- [ ] Make sure the app is playable on multiple mobile device out there mainly with the desktop version looking similar to the mobile version
+  since the app is mainly made for phones. Could look into an ipad/tablet mode also
+- [ ] Make the app a PWA officially and make it offline playable
+
+### v0.5 - New modes & Menus
 - [ ] Separate game mode for people who want to use their own dice
+  - [ ] Add some sort of button or mode selector with the default one being the one with in-game dice
   - [ ] Could have a button to calculate total
   - [ ] Could have selections that we lock in with another button (see if thats fun to play with)
   - [ ] And of course, a reset button to reset the board
-
-- [ ] Actually style the app correctly with the square button + box on felt vibe \
-  - [ ] Box needs to be all wood and have a wood texture.
-  - [ ] If possible, make the box 3D (probably need to look into treeJs or some kind of 3D web rendering to make it realistic) \
-    -> Or start with 2D version and make it 3D in a v2 if it looks way too complicated
-  - [ ] Tiles should be animated with maybe slight colour changed on currently selected tiles before locking in the round
-  - [ ] Tiles that are disabled should not be clickable or should show some sort of animation on screen to let the player know that they are not available with the current dice roll
-  - [ ] ANIMATED DICE!!! (would be cool if they could be thrown in the box at random angles to give the real look and feel of the real game)
-  - [ ] Make sure the app is playable on multiple mobile device out there mainly with the desktop version looking similar to the mobile version
-    since the app is mainly made for phones. Could look into an ipad/tablet mode also
-  - [ ] Add the game title somewhere
-
+- [ ] Make it possible to change the number of tiles on the board (default is 12 and should be between 8 and 12)
 - [ ] Start menu
+  - [ ] Page for instructions?
+  - [ ] Page for preference that wold be stored in local storage?
 
-- [ ] The concept of a game where you enter the names of players, numbers of rounds and the app does everything for you. \
+### v1.0 - Making sure everything works properly for official release
+- [ ] Add unit tests with vitest
+- [ ] Add a CI pipeline that runs the linter check, prettier check, builds the app and runs the tests
+- [ ] Add Release, test coverage and CI pipeline badges in README
+
+### v1.1 - Concept of games and rounds
+
+- [ ] The concept of a game where you enter the names of players, numbers of rounds and the app does everything for you.
+
   Even tells you who lost, who won (probably just put the players in order with the loser emphasized as he usually pays the round of drinks)
 
-- [ ] Make the app a PWA officially and make it offline playable
+### v1.2 - Names on the box
 
-- [ ] Connect to a database where when the current device is connected to the internet to add name of winners on the box \
-  Should actually prompt user with text box that has maximum number of characters where the user can input what they want \
-  Make sure there is sanitization on that field since it will go in the DB.
+- [ ] Connect to a database where when the current device is connected to the internet to add name of winners on the box
+  - [ ] Should actually prompt user with text box that has maximum number of characters where the user can input what they want.
+  - [ ] Make sure there is sanitization on that field since it will go in the DB.
+  - [ ] Will have to create somne kind of algorithm that places the names randomly on the board or let users put the works where they want with some kind of 3D view of the box
 
-  Will have to create somne kind of algorithm that places the names randomly on the board or let users put the works where they want \
-  with some kind of 3D view of the box
+**...**
+
+### v2 - 3D
+- [ ] Make the box 3D with engines like treeJS ??
+- [ ] Make the box movable (like possible to look at it from different angles to view all the names)
+
+**And for now, that's pretty much what I have in mind at the moment, feature-wise :).**
