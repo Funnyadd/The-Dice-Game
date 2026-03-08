@@ -1,83 +1,160 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
-    /* Palette */
-    --ink: #141414;
-    --felt: #1f5c3a; /* To be used for background later */
-    --felt-dark: #17462c; /* To be used for background later */
-    --tile: #f2e7d4;
-    --tile-pressed: #bea475;
-    --tile-selected: #def55b;
-    --tile-disabled: #a1a1a1;
-  }
+    :root {
+        --ink: #1f140d;
+        --text-soft: #f3eadf;
+        --panel-border: rgba(255, 255, 255, 0.1);
+    }
 
-  html,
-  body {
-    height: 100%;
-  }
+    html,
+    body,
+    #root {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+    }
 
-  body {
-    color: var(--ink);
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  }
+    body {
+        color: var(--text-soft);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+            radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.035), transparent 20%),
+            radial-gradient(circle at 82% 78%, rgba(0, 0, 0, 0.12), transparent 24%),
+            repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.008) 0 2px,
+                rgba(0, 0, 0, 0.008) 2px 4px
+            ),
+            linear-gradient(135deg, #1f5b40 0%, #174833 56%, #123425 100%);
+    }
 
-  /* Keep things crisp and "game-like" */
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
+    * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
 
-  button {
-    font: inherit;
-    @apply select-none cursor-pointer;
-  }
+    button {
+        font: inherit;
+        @apply select-none;
+    }
 }
 
 @layer components {
-  .tile-btn {
-    @apply m-1;
-    width: 56px;
-    height: 56px;
-    border: 3px solid var(--ink);
-  }
+    .app-shell {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem;
+    }
 
-  .tile-btn-up {
-    background: var(--tile);
-  }
+    .board-stage {
+        width: min(100%, 1800px);
+    }
 
-  .tile-btn-up:hover {
-    filter: brightness(1.1);
-  }
+    .board-wrap {
+        position: relative;
+        width: 100%;
+        height: clamp(11.5rem, 37dvh, 23rem);
+        border-radius: 1.1rem;
+        overflow: hidden;
+    }
 
-  .tile-btn-up:active {
-    background: var(--tile-pressed);
-  }
+    .board-wrap,
+    .board-wrap canvas {
+        touch-action: none;
+    }
 
-  .tile-btn-selected {
-    background: var(--tile-selected);
-  }
+    .hud-card {
+        width: min(100%, 1800px);
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        padding: 0.45rem;
+        border-radius: 0.95rem;
+        border: 1px solid var(--panel-border);
+        background: linear-gradient(180deg, rgba(35, 30, 20, 0.72), rgba(18, 16, 10, 0.72));
+        box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.18);
+    }
 
-  .tile-btn-disabled {
-    @apply cursor-not-allowed;
-    background: var(--tile-disabled);
-  }
+    .control-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.55rem;
+    }
 
-  .tile-btn-down {
-    background: var(--tile);
-    height: 28px;
-  }
+    .action-btn {
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0.14);
+        border-radius: 0.45rem;
+        padding: 0.72rem 0.95rem;
+        color: var(--ink);
+        font-weight: 700;
+        background: linear-gradient(180deg, #ecdec4 0%, #d8c19c 100%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
 
-  .action-btn {
-    @apply m-1 px-4 py-3 font-semibold;
-    border: 3px solid var(--ink);
-    background: rgba(255,255,255,0.92);
-  }
+    .action-btn:hover {
+        filter: brightness(1.03);
+    }
 
-  .action-btn:hover {
-    background: rgb(226, 226, 226);
-  }
+    .action-btn:active {
+        transform: translateY(1px);
+    }
 
-  .action-btn:active {
-    background: rgb(207, 207, 207);
-  }
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        min-height: 3rem;
+        padding: 0.7rem 0.9rem;
+        border-radius: 0.7rem;
+        background: rgba(10, 9, 7, 0.42);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        font-weight: 600;
+    }
+
+    .hud-message {
+        margin: 0;
+        padding: 0.68rem 0.82rem;
+        border-radius: 0.7rem;
+    }
+
+    .status-message {
+        background: rgba(33, 59, 39, 0.46);
+        border: 1px solid rgba(123, 185, 122, 0.28);
+    }
+
+    .error-message {
+        color: #ffe2dc;
+        background: rgba(84, 29, 23, 0.5);
+        border: 1px solid rgba(219, 105, 91, 0.3);
+    }
+
+    @media (orientation: landscape) and (max-height: 540px) {
+        .app-shell {
+            gap: 0.35rem;
+            padding: 0.35rem;
+        }
+
+        .board-wrap {
+            height: 34dvh;
+            min-height: 10.5rem;
+        }
+
+        .hud-card {
+            gap: 0.4rem;
+            padding: 0.4rem;
+        }
+
+        .action-btn,
+        .status-pill {
+            min-height: 2.55rem;
+            padding: 0.56rem 0.74rem;
+        }
+    }
 }

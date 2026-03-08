@@ -20,29 +20,31 @@ const App = () => {
     const handleTileClick = (tileNumber: number) => dispatch({ type: "TOGGLE_TILE", tileNumber });
 
     return (
-        <>
-            <Board tiles={tiles} onTileClick={handleTileClick} />
+        <main className="app-shell">
+            <section className="board-stage">
+                <Board tiles={tiles} onTileClick={handleTileClick} />
+            </section>
 
-            <div>
-                <button className="action-btn" onClick={handleRollDiceClick}>
-                    Roll the Dice
-                </button>
-                <span className="dice-result">
-                    <strong>Current roll:</strong> {diceResult ?? DEFAULT_DICE_MESSAGE}
-                </span>
-            </div>
-            <div>
-                <button className="action-btn" onClick={handleResetGameClick}>
-                    Reset
-                </button>
-            </div>
-            <div>
-                <p className="m-1">{resultMessage}</p>
-            </div>
-            <div>
-                <p className="m-1">{error}</p>
-            </div>
-        </>
+            <section className="hud-card">
+                <div className="control-row">
+                    <button className="action-btn" onClick={handleRollDiceClick}>
+                        Roll the Dice
+                    </button>
+
+                    <div className="status-pill">
+                        <strong>Current roll:</strong>
+                        <span>{diceResult ?? DEFAULT_DICE_MESSAGE}</span>
+                    </div>
+
+                    <button className="action-btn" onClick={handleResetGameClick}>
+                        Reset
+                    </button>
+                </div>
+
+                {resultMessage ? <p className="hud-message status-message">{resultMessage}</p> : null}
+                {error ? <p className="hud-message error-message">{error}</p> : null}
+            </section>
+        </main>
     );
 };
 
