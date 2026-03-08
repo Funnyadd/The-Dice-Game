@@ -55,13 +55,14 @@ Code works from what I tested. Probably need to do some more testing
 - [ ] Add App Icon (maybe generate one with GPT)
 
 ### v0.3 - Dice animation
-
 - [ ] ANIMATED DICE!!! (would be cool if they could be thrown in the box at random angles to give the real look and feel of the real game)
 
 ### v0.4 - Device compatibility & Resizability of app
 - [ ] Make sure the app is playable on multiple mobile device out there mainly with the desktop version looking similar to the mobile version
   since the app is mainly made for phones. Could look into an ipad/tablet mode also
 - [ ] Make the app a PWA officially and make it offline playable
+- [ ] Add a manifest, different sizes of icons and all the stuff that the browser likes
+- [ ] Also make it easily indexable by google, for fun
 
 ### v0.5 - New modes & Menus
 - [ ] Separate game mode for people who want to use their own dice
@@ -80,13 +81,11 @@ Code works from what I tested. Probably need to do some more testing
 - [ ] Add Release, test coverage and CI pipeline badges in README
 
 ### v1.1 - Concept of games and rounds
-
 - [ ] The concept of a game where you enter the names of players, numbers of rounds and the app does everything for you.
 
   Even tells you who lost, who won (probably just put the players in order with the loser emphasized as he usually pays the round of drinks)
 
 ### v1.2 - Names on the box
-
 - [ ] Connect to a database where when the current device is connected to the internet to add name of winners on the box
   - [ ] Should actually prompt user with text box that has maximum number of characters where the user can input what they want.
   - [ ] Make sure there is sanitization on that field since it will go in the DB.
@@ -95,7 +94,7 @@ Code works from what I tested. Probably need to do some more testing
 **...**
 
 ### v2 - 3D
-- [ ] Make the box 3D with engines like treeJS ??
+- [ ] Make the box 3D with engines like threeJS ??
 - [ ] Make the box movable (like possible to look at it from different angles to view all the names)
 
 **And for now, that's pretty much what I have in mind at the moment, feature-wise :).**

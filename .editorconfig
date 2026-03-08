@@ -9,5 +9,5 @@ indent_style = space
 [*.{ts,tsx}]
 indent_size = 4
 
-[*.json]
+[*.{json,css}]
 indent_size = 2
