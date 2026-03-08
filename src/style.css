@@ -1,83 +1,123 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
-    /* Palette */
-    --ink: #141414;
-    --felt: #1f5c3a; /* To be used for background later */
-    --felt-dark: #17462c; /* To be used for background later */
-    --tile: #f2e7d4;
-    --tile-pressed: #bea475;
-    --tile-selected: #def55b;
-    --tile-disabled: #a1a1a1;
-  }
+    :root {
+        --ink: #141414;
+        --tile: #f2e7d4;
+        --tile-pressed: #bea475;
+        --tile-selected: #def55b; /* Need ot change this ugly ass colour */
+        --tile-disabled: #a1a1a1;
 
-  html,
-  body {
-    height: 100%;
-  }
+        /* Revisit these colours */
+        --board-walls: #a77d35;
+        --board-inside: #c3a063;
+    }
 
-  body {
-    color: var(--ink);
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  }
+    body {
+        @apply bg-black; /* Need to change to appropriate colour */
+        color: var(--ink);
+        font-family:
+            ui-sans-serif,
+            system-ui,
+            -apple-system,
+            Segoe UI,
+            Roboto,
+            Arial,
+            sans-serif;
+    }
 
-  /* Keep things crisp and "game-like" */
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
+    * {
+        /* Keep things crisp and "game-like" */
+        -webkit-tap-highlight-color: transparent;
+        @apply select-none;
+    }
 
-  button {
-    font: inherit;
-    @apply select-none cursor-pointer;
-  }
+    button {
+        font: inherit;
+        @apply cursor-pointer;
+    }
+
+    p,
+    span,
+    strong {
+        @apply select-text;
+    }
 }
 
 @layer components {
-  .tile-btn {
-    @apply m-1;
-    width: 56px;
-    height: 56px;
-    border: 3px solid var(--ink);
-  }
+    .main-container {
+        /* Need to change to appropriate colour */
+        @apply bg-green-800 mx-auto px-2 pt-4 h-screen flex items-center flex-col gap-4;
+    }
 
-  .tile-btn-up {
-    background: var(--tile);
-  }
+    /* Board */
+    .board-container {
+        @apply p-2 w-full;
+        background-color: var(--board-walls);
+    }
 
-  .tile-btn-up:hover {
-    filter: brightness(1.1);
-  }
+    .tile-container {
+        @apply py-1 flex;
+        background-color: var(--board-inside);
+    }
 
-  .tile-btn-up:active {
-    background: var(--tile-pressed);
-  }
+    .board-separator {
+        @apply border-4;
+        border-color: var(--board-walls);
+    }
 
-  .tile-btn-selected {
-    background: var(--tile-selected);
-  }
+    .dice-box {
+        @apply h-32; /* Change to more dynamic */
+        background-color: var(--board-inside);
+    }
 
-  .tile-btn-disabled {
-    @apply cursor-not-allowed;
-    background: var(--tile-disabled);
-  }
+    /* Tiles */
+    .tile-btn {
+        flex: 1 1 0;
+        min-width: 25px;
+        aspect-ratio: 3 / 5;
+        border: 3px solid var(--ink);
+    }
 
-  .tile-btn-down {
-    background: var(--tile);
-    height: 28px;
-  }
+    .tile-btn-up {
+        background: var(--tile);
+    }
 
-  .action-btn {
-    @apply m-1 px-4 py-3 font-semibold;
-    border: 3px solid var(--ink);
-    background: rgba(255,255,255,0.92);
-  }
+    .tile-btn-up:hover {
+        filter: brightness(1.1);
+    }
 
-  .action-btn:hover {
-    background: rgb(226, 226, 226);
-  }
+    .tile-btn-up:active {
+        background: var(--tile-pressed);
+    }
 
-  .action-btn:active {
-    background: rgb(207, 207, 207);
-  }
+    .tile-btn-selected {
+        background: var(--tile-selected);
+        transform: translate(0, 50%);
+    }
+
+    .tile-btn-disabled {
+        @apply cursor-not-allowed;
+        background: var(--tile-disabled);
+    }
+
+    .tile-btn-down {
+        background: var(--tile);
+        transform: translate(0, 50%);
+    }
+
+    /* Action buttons */
+    .action-btn {
+        @apply m-1 px-4 py-3 font-semibold;
+        border: 3px solid var(--ink);
+        background: rgba(255, 255, 255, 0.92);
+    }
+
+    .action-btn:hover {
+        background: rgb(226, 226, 226);
+    }
+
+    .action-btn:active {
+        background: rgb(207, 207, 207);
+    }
 }

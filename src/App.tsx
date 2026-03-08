@@ -20,7 +20,7 @@ const App = () => {
     const handleTileClick = (tileNumber: number) => dispatch({ type: "TOGGLE_TILE", tileNumber });
 
     return (
-        <>
+        <div className="main-container">
             <Board tiles={tiles} onTileClick={handleTileClick} />
 
             <div>
@@ -30,8 +30,6 @@ const App = () => {
                 <span className="dice-result">
                     <strong>Current roll:</strong> {diceResult ?? DEFAULT_DICE_MESSAGE}
                 </span>
-            </div>
-            <div>
                 <button className="action-btn" onClick={handleResetGameClick}>
                     Reset
                 </button>
@@ -42,7 +40,7 @@ const App = () => {
             <div>
                 <p className="m-1">{error}</p>
             </div>
-        </>
+        </div>
     );
 };
 
