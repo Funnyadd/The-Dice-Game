@@ -45,11 +45,10 @@ Code works from what I tested. Probably need to do some more testing
 - [x] Add a **LICENSE** file
 
 ### v0.2 - Board Styling
-- [ ] Box needs to be all wood and have a woodden texture.
+- [ ] Box needs to be all wood or at least look like that.
 - [ ] Make a 2D version looking like 3D but no treeJS or anything fancy like that
 - [ ] Tiles should be animated with maybe slight colour changed on currently selected tiles before locking in the round
 - [ ] Tiles that are disabled should not be clickable or should show some sort of animation on screen to let the player know that they are not available with the current dice roll
-
 
 ### v0.3 - Dice animation
 - [ ] Actual dice: simple dice (2 of them of course) that spin in the middle of the board or something fancier if possible and not too complicated.

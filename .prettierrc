@@ -7,7 +7,7 @@
     "tabWidth": 4,
     "overrides": [
         {
-            "files": ["package.json", "*.json"],
+            "files": ["*.json", "*.css"],
             "options": {
                 "tabWidth": 2
             }

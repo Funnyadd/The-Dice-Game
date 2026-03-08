@@ -1,123 +1,215 @@
 @import "tailwindcss";
 
 @layer base {
-    :root {
-        --ink: #141414;
-        --tile: #f2e7d4;
-        --tile-pressed: #bea475;
-        --tile-selected: #def55b; /* Need ot change this ugly ass colour */
-        --tile-disabled: #a1a1a1;
+  :root {
+    --rounding-interval: 1px;
 
-        /* Revisit these colours */
-        --board-walls: #a77d35;
-        --board-inside: #c3a063;
-    }
+    --ink: #141414;
+    --tile-border: #926d2d;
+    --tile: #a77d35;
+    --tile-pressed: #ad8135;
+    --tile-selected: #976f2a; /* Need ot change this ugly ass colour */
 
-    body {
-        @apply bg-black; /* Need to change to appropriate colour */
-        color: var(--ink);
-        font-family:
-            ui-sans-serif,
-            system-ui,
-            -apple-system,
-            Segoe UI,
-            Roboto,
-            Arial,
-            sans-serif;
-    }
+    /* Revisit these colours */
+    --board-walls: #a77d35; /* Same as tile colour at the moment */
+    --board-inside: #c99336;
+    /* --board-inside: #c3a063; */
 
-    * {
-        /* Keep things crisp and "game-like" */
-        -webkit-tap-highlight-color: transparent;
-        @apply select-none;
-    }
+    --board-aspect-ratio: 12 / 7;
+    --tile-aspect-ratio: 3 / 5;
 
-    button {
-        font: inherit;
-        @apply cursor-pointer;
-    }
+    --board-base-max-height: 92dvh;
+    --board-base-width: min(1200px, 96vw, calc(var(--board-base-max-height) * var(--board-aspect-ratio)));
+    --board-base-wall-width: round(1.5dvh, var(--rounding-interval));
 
-    p,
-    span,
-    strong {
-        @apply select-text;
-    }
+    --board-portrait-width: min(94vw, calc(78dvh * var(--board-aspect-ratio)));
+
+    --board-landscape-width: min(98vw, calc(82dvh * var(--board-aspect-ratio)));
+  }
+
+  body {
+    @apply bg-black; /* Need to change to appropriate colour */
+    color: var(--ink);
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      Segoe UI,
+      Roboto,
+      Arial,
+      sans-serif;
+  }
+
+  * {
+    /* Keep things crisp and "game-like" */
+    -webkit-tap-highlight-color: transparent;
+    @apply select-none;
+  }
+
+  button {
+    font: inherit;
+    @apply cursor-pointer;
+  }
+
+  p,
+  span,
+  strong {
+    @apply select-text;
+  }
 }
 
 @layer components {
-    .main-container {
-        /* Need to change to appropriate colour */
-        @apply bg-green-800 mx-auto px-2 pt-4 h-screen flex items-center flex-col gap-4;
-    }
+  .main-container {
+    /* Need to change to appropriate colour */
+    @apply bg-green-800 flex items-center flex-col gap-4;
+    height: 100dvh;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    padding-left: max(8px, env(safe-area-inset-left));
+  }
 
-    /* Board */
+  /* Board */
+  .board-container {
+    @apply mt-6;
+    padding: calc(var(--board-base-wall-width) * 2);
+    background-color: var(--board-walls);
+    aspect-ratio: var(--board-aspect-ratio);
+    width: var(--board-base-width);
+    max-height: var(--board-base-max-height);
+  }
+
+  .dice-box {
+    background-color: var(--board-inside);
+    height: calc(
+      100% - var(--board-base-wall-width) * 2 - (var(--board-base-width) / var(--tile-count)) /
+        (var(--tile-aspect-ratio))
+    );
+  }
+
+  .board-separator {
+    border-color: var(--board-walls);
+    border-width: var(--board-base-wall-width);
+  }
+
+  /* Copy cool dynamic shit to portrait and landscape modes */
+
+  /* portrait */
+  @media (orientation: portrait) {
     .board-container {
-        @apply p-2 w-full;
-        background-color: var(--board-walls);
-    }
-
-    .tile-container {
-        @apply py-1 flex;
-        background-color: var(--board-inside);
-    }
-
-    .board-separator {
-        @apply border-4;
-        border-color: var(--board-walls);
+      width: var(--board-portrait-width);
+      padding: 3dvw;
     }
 
     .dice-box {
-        @apply h-32; /* Change to more dynamic */
-        background-color: var(--board-inside);
+      height: 40dvh;
     }
 
-    /* Tiles */
-    .tile-btn {
-        flex: 1 1 0;
-        min-width: 25px;
-        aspect-ratio: 3 / 5;
-        border: 3px solid var(--ink);
+    .board-separator {
+      border-width: 1.5dvw;
+    }
+  }
+
+  /* short landscape phones */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .board-container {
+      width: var(--board-landscape-width);
+      max-height: 82dvh;
+      padding: 3dvh;
     }
 
-    .tile-btn-up {
-        background: var(--tile);
+    .dice-box {
+      height: 40dvh;
     }
 
-    .tile-btn-up:hover {
-        filter: brightness(1.1);
+    .board-separator {
+      border-width: 1.5dvh;
     }
+  }
 
-    .tile-btn-up:active {
-        background: var(--tile-pressed);
-    }
+  .tile-container {
+    @apply flex;
+    background-color: var(--board-inside);
+  }
 
-    .tile-btn-selected {
-        background: var(--tile-selected);
-        transform: translate(0, 50%);
-    }
+  /* Tiles */
+  .tile-btn {
+    flex: 1 1 0;
+    min-width: 25px;
+    background-color: var(--tile);
+    aspect-ratio: var(--tile-aspect-ratio);
+    border: 3px solid var(--tile-border);
+    transform: translateY(-30%);
+  }
 
-    .tile-btn-disabled {
-        @apply cursor-not-allowed;
-        background: var(--tile-disabled);
-    }
+  .tile-btn-up {
+    background-color: var(--tile);
+  }
 
-    .tile-btn-down {
-        background: var(--tile);
-        transform: translate(0, 50%);
-    }
+  .tile-btn-up:hover,
+  .tile-btn-disabled:hover {
+    filter: brightness(1.1);
+  }
 
-    /* Action buttons */
-    .action-btn {
-        @apply m-1 px-4 py-3 font-semibold;
-        border: 3px solid var(--ink);
-        background: rgba(255, 255, 255, 0.92);
-    }
+  .tile-btn-up:active {
+    background-color: var(--tile-pressed);
+  }
 
-    .action-btn:hover {
-        background: rgb(226, 226, 226);
-    }
+  .tile-btn-selected {
+    background-color: var(--tile-selected);
+    transform: translateY(30%);
+  }
 
-    .action-btn:active {
-        background: rgb(207, 207, 207);
+  .tile-btn-disabled {
+    @apply cursor-not-allowed;
+  }
+
+  .tile-btn-down {
+    background-color: var(--tile);
+    transform: translateY(30%);
+  }
+
+  @keyframes disabled-tile-jiggle {
+    0% {
+      transform: translate(0, -30%) rotate(0deg);
     }
+    15% {
+      transform: translate(-3px, -30%) rotate(-2deg);
+    }
+    30% {
+      transform: translate(3px, -30%) rotate(2deg);
+    }
+    45% {
+      transform: translate(-2px, -30%) rotate(-1deg);
+    }
+    60% {
+      transform: translate(2px, -30%) rotate(1deg);
+    }
+    75% {
+      transform: translate(-1px, -30%) rotate(-0.5deg);
+    }
+    100% {
+      transform: translate(0, -30%) rotate(0deg);
+    }
+  }
+
+  .tile-jiggle-animation {
+    animation: disabled-tile-jiggle 220ms ease;
+    background-color: var(--tile-pressed);
+  }
+
+  /* Action buttons */
+  .action-btn {
+    @apply m-1 px-4 py-3 font-semibold;
+    border: 3px solid var(--ink);
+    background-color: #ffffffeb;
+  }
+
+  .action-btn:hover {
+    background-color: #e2e2e2;
+  }
+
+  .action-btn:active {
+    background-color: #cfcfcf;
+  }
 }

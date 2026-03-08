@@ -22,7 +22,6 @@ const App = () => {
     return (
         <div className="main-container">
             <Board tiles={tiles} onTileClick={handleTileClick} />
-
             <div>
                 <button className="action-btn" onClick={handleRollDiceClick}>
                     Roll the Dice

@@ -24,3 +24,5 @@ export interface BoardProps {
     tiles: Tile[];
     onTileClick: (tileNumber: number) => void;
 }
+
+export type DieValue = 1 | 2 | 3 | 4 | 5 | 6;

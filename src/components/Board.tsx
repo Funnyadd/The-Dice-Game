@@ -1,5 +1,7 @@
 import TileButton from "./TileButton";
 import type { BoardProps } from "../game/types";
+import { useEffect } from "react";
+import Dice from "./dice/Dice";
 
 const Board = ({ tiles, onTileClick }: BoardProps) => {
     // Need to find a way to make the tiles be higher than the height of the board
@@ -14,6 +16,11 @@ const Board = ({ tiles, onTileClick }: BoardProps) => {
     // TILES:
     // - Replace disabled state by a giggle
     // - Add some sort of animation (if possible) from state up to selected
+
+    useEffect(() => {
+        document.documentElement.style.setProperty("--tile-count", String(tiles.length));
+    }, [tiles.length]);
+
     return (
         <div className="board-container">
             <div className="tile-container">
@@ -22,7 +29,15 @@ const Board = ({ tiles, onTileClick }: BoardProps) => {
                 ))}
             </div>
             <hr className="board-separator" />
-            <div className="dice-box">{/* Put the dice here ! */}</div>
+            <div className="dice-box">
+                <Dice
+                    count={2}
+                    onRollComplete={(values, total) => {
+                        // setCurrentRoll(total);
+                        console.log(values, total);
+                    }}
+                />
+            </div>
         </div>
     );
 };
