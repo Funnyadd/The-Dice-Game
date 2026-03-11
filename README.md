@@ -49,11 +49,9 @@ Code works from what I tested. Probably need to do some more testing
 - [ ] Make a 2D version looking like 3D but no treeJS or anything fancy like that
 - [ ] Tiles should be animated with maybe slight colour changed on currently selected tiles before locking in the round
 - [ ] Tiles that are disabled should not be clickable or should show some sort of animation on screen to let the player know that they are not available with the current dice roll
-
-### v0.3 - Dice animation
 - [ ] Actual dice: simple dice (2 of them of course) that spin in the middle of the board or something fancier if possible and not too complicated.
 
-### v0.4 - Device compatibility & Resizability of app
+### v0.3 - Device compatibility & Resizability of app
 - [ ] Make sure the app is playable on multiple mobile device out there mainly with the desktop version looking similar to the mobile version
   since the app is mainly made for phones. Could look into an ipad/tablet mode also
 - [ ] Make the app a PWA officially and make it offline playable
@@ -61,7 +59,7 @@ Code works from what I tested. Probably need to do some more testing
 - [ ] Also make it easily indexable by google, for fun
 - [ ] Add the game title somewhere (Still have to see if necessary)
 
-### v0.5 - New modes & Menus
+### v0.4 - New modes & Menus
 - [ ] Separate game mode for people who want to use their own dice
   - [ ] Add some sort of button or mode selector with the default one being the one with in-game dice
   - [ ] Could have a button to calculate total
