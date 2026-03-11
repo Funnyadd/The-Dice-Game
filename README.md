@@ -67,7 +67,7 @@ Code works from what I tested. Probably need to do some more testing
   - [ ] Could have a button to calculate total
   - [ ] Could have selections that we lock in with another button (see if thats fun to play with)
   - [ ] And of course, a reset button to reset the board
-- [ ] Make it possible to change the number of tiles on the board (default is 12 and should be between 8 and 12)
+- [ ] Make it possible to change the number of tiles on the board (default is 12 and should be between 9 and 12)
 - [ ] Start menu
   - [ ] Page for instructions?
   - [ ] Page for preference that wold be stored in local storage?
