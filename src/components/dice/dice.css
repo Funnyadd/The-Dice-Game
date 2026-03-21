@@ -1,3 +1,8 @@
+/* 
+Check what can be done here to remove style and
+to make dice actually be fully reactive with screen size
+*/
+
 :root {
   --die-size: clamp(64px, 9vw, 96px);
   --die-border-color: #d9d9d9;
@@ -49,11 +54,11 @@
   background: transparent;
 }
 
-.die-pip--visible {
+.die-pip-visible {
   background: var(--die-pip-color);
 }
 
-.die-2d--rolling {
+.die-2d-rolling {
   animation: die-bounce 120ms ease-in-out infinite alternate;
 }
 

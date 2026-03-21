@@ -10,7 +10,6 @@ import {
     hasSelectedTiles,
     isTileDisabled,
     isTileDown,
-    rollDice,
     toggleTileSelection,
 } from "./logic";
 import type { GameAction, GameData } from "./types";
@@ -19,7 +18,7 @@ export const createInitialGameData = (numberOfTiles: number): GameData => ({
     gameState: "notStarted",
     diceResult: null,
     tiles: createInitialTiles(numberOfTiles),
-    error: "",
+    error: null,
 });
 
 export const gameReducer = (state: GameData, action: GameAction): GameData => {
@@ -31,17 +30,24 @@ export const gameReducer = (state: GameData, action: GameAction): GameData => {
             if (state.gameState !== "started") return state;
 
             const clickedTile = state.tiles.find((tile) => tile.number === action.tileNumber);
-            if (!clickedTile || isTileDown(clickedTile) || isTileDisabled(clickedTile)) {
-                return state;
-            }
+            if (!clickedTile || isTileDown(clickedTile) || isTileDisabled(clickedTile)) return state;
 
             const nextTiles = toggleTileSelection(state.tiles, action.tileNumber, state.diceResult);
 
             if (areAllTilesClosed(nextTiles)) {
-                return { ...state, gameState: "won", tiles: finalizeWonTiles(nextTiles), error: "" };
+                return {
+                    ...state,
+                    gameState: "won",
+                    tiles: finalizeWonTiles(nextTiles),
+                    error: null,
+                };
             }
 
-            return { ...state, tiles: nextTiles, error: "" };
+            return {
+                ...state,
+                tiles: nextTiles,
+                error: null,
+            };
         }
 
         case "ROLL_DICE": {
@@ -59,13 +65,20 @@ export const gameReducer = (state: GameData, action: GameAction): GameData => {
                 }
             }
 
-            const diceRoll = rollDice(NB_TILES);
-            const rolledTiles = applyRollToTiles(state.tiles, diceRoll);
+            const totalDiceRoll = action.diceValues.reduce((sum, value) => sum + value, 0);
+            const rolledTiles = applyRollToTiles(state.tiles, totalDiceRoll);
 
-            if (!hasMovesLeft(rolledTiles, diceRoll)) {
-                return { gameState: "lost", diceResult: diceRoll, tiles: finalizeLostTiles(rolledTiles), error: "" };
+            if (!hasMovesLeft(rolledTiles, totalDiceRoll)) {
+                return {
+                    ...state,
+                    gameState: "lost",
+                    diceResult: totalDiceRoll,
+                    tiles: finalizeLostTiles(rolledTiles),
+                    error: null,
+                };
             }
-            return { gameState: "started", diceResult: diceRoll, tiles: rolledTiles, error: "" };
+
+            return { ...state, gameState: "started", diceResult: totalDiceRoll, tiles: rolledTiles, error: null };
         }
 
         default:

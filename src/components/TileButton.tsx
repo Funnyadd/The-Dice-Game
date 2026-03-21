@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { isTileDisabled, isTileDown, isTileSelected } from "../game/logic";
+import { useGame } from "../game/useGame";
 import type { TileButtonProps } from "../game/types";
 
-const TileButton = ({ tile, onClick }: TileButtonProps) => {
+const TileButton = ({ tile }: TileButtonProps) => {
+    const { toggleTile } = useGame();
     const [jiggleTileNumber, setJiggleTileNumber] = useState<number | null>(null);
 
     const handleTileOnClick = (tileNumber: number) => {
+        if (isTileDown(tile)) {
+            return;
+        }
+
         if (isTileDisabled(tile)) {
             setJiggleTileNumber(null);
             requestAnimationFrame(() => {
@@ -14,13 +20,12 @@ const TileButton = ({ tile, onClick }: TileButtonProps) => {
             return;
         }
 
-        onClick(tileNumber);
+        toggleTile(tileNumber);
     };
 
     return (
         <button
-            aria-disabled={isTileDisabled(tile)}
-            type="button"
+            disabled={isTileDown(tile)}
             className={[
                 "tile-btn",
                 `tile-btn-${tile.state}`,
@@ -28,7 +33,9 @@ const TileButton = ({ tile, onClick }: TileButtonProps) => {
             ].join(" ")}
             onClick={() => handleTileOnClick(tile.number)}
             onAnimationEnd={() => {
-                if (jiggleTileNumber === tile.number) setJiggleTileNumber(null);
+                if (jiggleTileNumber === tile.number) {
+                    setJiggleTileNumber(null);
+                }
             }}
         >
             {isTileDown(tile) || isTileSelected(tile) ? "" : tile.number}

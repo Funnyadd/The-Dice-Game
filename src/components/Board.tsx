@@ -1,21 +1,12 @@
-import TileButton from "./TileButton";
-import type { BoardProps } from "../game/types";
 import { useEffect } from "react";
+import { NB_DICE } from "../game/constants";
+import { useGame } from "../game/useGame";
+import TileButton from "./TileButton";
 import Dice from "./dice/Dice";
 
-const Board = ({ tiles, onTileClick }: BoardProps) => {
-    // Need to find a way to make the tiles be higher than the height of the board
-    // so that it gives an effect that they are over the edge
-
-    // Find a way to resize the board based on the viewport
-
-    // Find a way to make the board game work well in vertical
-    // (buttons might be too small at the moment)
-    // Horizontal phone viewport in browsers is horrible :(
-
-    // TILES:
-    // - Replace disabled state by a giggle
-    // - Add some sort of animation (if possible) from state up to selected
+const Board = () => {
+    const { gameData, canRollDice, rollDice } = useGame();
+    const { tiles } = gameData;
 
     useEffect(() => {
         document.documentElement.style.setProperty("--tile-count", String(tiles.length));
@@ -25,16 +16,18 @@ const Board = ({ tiles, onTileClick }: BoardProps) => {
         <div className="board-container">
             <div className="tile-container">
                 {tiles.map((tile) => (
-                    <TileButton key={tile.number} tile={tile} onClick={onTileClick} />
+                    <TileButton key={tile.number} tile={tile} />
                 ))}
             </div>
+
             <hr className="board-separator" />
+
             <div className="dice-box">
                 <Dice
-                    count={2}
-                    onRollComplete={(values, total) => {
-                        // setCurrentRoll(total);
-                        console.log(values, total);
+                    disabled={!canRollDice}
+                    count={NB_DICE}
+                    onRollComplete={(values) => {
+                        rollDice(values);
                     }}
                 />
             </div>

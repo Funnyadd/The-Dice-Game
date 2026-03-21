@@ -8,7 +8,7 @@ interface DieProps {
 
 export default function Die({ value, isRolling = false }: DieProps) {
     return (
-        <div className={`die-2d ${isRolling ? "die-2d--rolling" : ""}`}>
+        <div className={`die-2d ${isRolling ? "die-2d-rolling" : ""}`}>
             <DieFace value={value} />
         </div>
     );

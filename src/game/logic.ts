@@ -1,5 +1,4 @@
-import { MIN_DICE_ROLL } from "./constants";
-import type { Tile } from "./types";
+import type { GameData, Tile } from "./types";
 
 export const createInitialTiles = (numberOfTiles: number): Tile[] =>
     Array.from({ length: numberOfTiles }, (_, index) => ({ number: index + 1, state: "up" }));
@@ -28,9 +27,6 @@ export const finalizeLostTiles = (tiles: Tile[]): Tile[] =>
         if (isTileSelected(tile)) return { ...tile, state: "down" };
         return tile;
     });
-
-export const rollDice = (maxRoll: number): number =>
-    Math.floor(Math.random() * (maxRoll - MIN_DICE_ROLL + 1)) + MIN_DICE_ROLL;
 
 export const hasCombination = (numbers: number[], target: number): boolean => {
     const memo = new Map<string, boolean>();
@@ -102,4 +98,24 @@ export const toggleTileSelection = (tiles: Tile[], tileNumber: number, diceResul
     });
 
     return recalculatePlayableTiles(toggledTiles, diceResult);
+};
+
+export const getCanRollDice = (gameData: GameData): boolean => {
+    if (gameData.gameState === "won" || gameData.gameState === "lost") return false;
+    if (gameData.gameState === "notStarted" || gameData.diceResult === null) return true;
+
+    return hasSelectedTiles(gameData.tiles) && getSelectedTotal(gameData.tiles) === gameData.diceResult;
+};
+
+export const getGameScore = (gameData: GameData): number =>
+    gameData.gameState === "won" ? 0 : getRemainingScore(gameData.tiles);
+
+export const getResultMessage = (gameData: GameData): string => {
+    const score = getGameScore(gameData);
+
+    if (gameData.gameState === "won" || gameData.gameState === "lost") {
+        return `You ${gameData.gameState}! Your score is ${score}.`;
+    }
+
+    return "";
 };

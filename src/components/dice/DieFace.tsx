@@ -1,9 +1,6 @@
-import type { DieValue } from "../../game/types";
+import type { DieFaceProps, DieValue } from "../../game/types";
 
-interface DieFaceProps {
-    value: DieValue;
-}
-
+const DIE_NB_FACES = 9;
 const VISIBLE_PIPS_BY_VALUE: Record<DieValue, number[]> = {
     1: [4],
     2: [0, 8],
@@ -18,8 +15,8 @@ export default function DieFace({ value }: DieFaceProps) {
 
     return (
         <div className="die-face-grid">
-            {Array.from({ length: 9 }, (_, index) => (
-                <span key={index} className={`die-pip ${visiblePips.includes(index) ? "die-pip--visible" : ""}`} />
+            {Array.from({ length: DIE_NB_FACES }, (_, index) => (
+                <span key={index} className={`die-pip ${visiblePips.includes(index) ? "die-pip-visible" : ""}`} />
             ))}
         </div>
     );
